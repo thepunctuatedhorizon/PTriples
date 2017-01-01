@@ -27,13 +27,15 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	//TODO: MAKE IT FIND THE SHORTEST SIDE!!
 	
 	mpz_t temp1, temp2, temp3, temp4;
-	mpz_t diagT1, diagT2;
+	mpz_t diagT1, diagT2, zero;
 	mpz_init_set_str(temp1, "0", 10);
 	mpz_init_set_str(temp2, "0", 10);
 	mpz_init_set_str(temp3, "0", 10);
 	mpz_init_set_str(temp4, "0", 10);
 	mpz_init_set_str(diagT1, "0", 10);
 	mpz_init_set_str(diagT2, "0", 10);
+	mpz_init_set_str(zero, "0",10);
+	FNV fnv;
 
 	first.getA(temp1);
 	first.getB(temp2);
@@ -44,80 +46,65 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 
 	if (whereE == 0){
 		std::cout << "ERROR" << std::endl;
-	} else if (whereE == 1){
+	} else if (whereE == 1 || whereE ==3){
+		try{
 		mpz_set(a, temp1);
 		mpz_set(b, temp2);
 		mpz_set(c, temp4);
 
 		first.getC(diagonalAB);
 		//Diagonal AC need's to be calculated.
-
-		//What if AC IS NOT ROOTABLE!??!  
-		bool notRootable = false;
-		if (notRootable) {std::cout << "ERROR, NOT ROOTABLE" << std::endl;}
+		mpz_mul(temp3, temp1, temp1);
+		mpz_mul(temp2, temp4, temp4);
+		mpz_add(zero, temp2, temp3);
+		int sqrtable = mpz_perfect_square_p(zero);
+	
+		if (sqrtable > 0){
+			mpz_root(diagonalAC, zero, 2);
+		} else {
+			std::cout << "ERROR, NOT ROOTABLE" << std::endl;
+			throw 10;
+		}
 		second.getC(diagonalBC);
 
 		hashA = first.getAHash();
 		hashB = first.getBHash();
+		hashC = second.getBHash();
 		hashDiagAB = first.getCHash();
+		hashDiagAC = fnv.fnv1aHashOfMpz_t(diagonalAC);
 		hashDiagBC = second.getCHash();
+		} catch (int e) { std::cout << "caught the trown int" << std::endl;}
 
 
-	} else if (whereE == 2){
+	} else if (whereE == 2|| whereE ==4){
+		try {
 		mpz_set(a, temp1);
 		mpz_set(b, temp2);
 		mpz_set(c, temp3);
 
 		first.getC(diagonalAB);
-		//Diagonal AC needs to be calculated.
-
-		//What if AC is not rootable?
-		bool notRootable = false;
-		if (notRootable) {std::cout << "Error, Not Rootable" << std::endl;}
+		//Diagonal AC need's to be calculated.
+		mpz_mul(temp3, temp1, temp1);
+		mpz_mul(temp2, temp4, temp4);
+		mpz_add(zero, temp2, temp3);
+		int sqrtable = mpz_perfect_square_p(zero);
+		if (sqrtable > 0){
+			mpz_root(diagonalAC, zero, 2);
+		} else {
+			std::cout << "ERROR, NOT ROOTABLE" << std::endl;
+			throw 10;
+		}
 		second.getC(diagonalBC);
 
 		hashA = first.getAHash();
 		hashB = first.getBHash();
+		hashC = second.getBHash();
 		hashDiagAB = first.getCHash();
+		hashDiagAC = fnv.fnv1aHashOfMpz_t(diagonalAC);
 		hashDiagBC = second.getCHash();
-
-	} else if (whereE == 3){
-		mpz_set(a, temp1);
-		mpz_set(b, temp2);
-		mpz_set(c, temp4);
-
-		first.getC(diagonalAB);
-		//Diagonal AC needs to be calculated.
-
-		//What if AC is not rootable?
-		bool notRootable = false;
-		if (notRootable) {std::cout << "Error, Not Rootable" << std::endl;}
-		second.getC(diagonalBC);
-
-		hashA = first.getAHash();
-		hashB = first.getBHash();
-		hashDiagAB = first.getCHash();
-		hashDiagBC = second.getCHash();
-
-	} else if (whereE == 4) {
-		mpz_set(a, temp1);
-		mpz_set(b, temp2);
-		mpz_set(c, temp3);
-
-		first.getC(diagonalAB);
-		//Diagonal AC needs to be calculated.
-
-		//What if AC is not rootable?
-		bool notRootable = false;
-		if (notRootable) {std::cout << "Error, Not Rootable" << std::endl;}
-		second.getC(diagonalBC);
-
-
-		hashA = first.getAHash();
-		hashB = first.getBHash();
-		hashDiagAB = first.getCHash();
-		hashDiagBC = second.getCHash();
+		} catch (int e) { std::cout << "caught the trown int" << std::endl;}
 	}
+	
 			
 	
 	//mpz_add(            first.getC2() + second.getC2() + diagonalAC2 )
