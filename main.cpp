@@ -62,9 +62,12 @@ int main()
 
 	std::cout << "End of traverse" << std::endl;
 
-	PTriples match = (*node).getUp().getDown().getDown().getAnchor();
+	PTriples match = (*node).getDown().getDown().getAnchor();
 
 	match.printOutTriple();
+	PTriples mmatch = (*node).getUp().getAnchor();
+
+	mmatch.printOutTriple();
 
 	//Here, I'm testing the Euler Brick
 
@@ -82,7 +85,11 @@ int main()
 
 	(*eulerBrick).print();
 
+
+	std::cout << "Here's a match, is it a brick?" << std::endl;
 	
+	EulerBrick* eulerB = new EulerBrick((*node).getUp().getAnchor(), (*node).getDown().getDown().getAnchor(),p,p);
+	(*eulerB).print();
 
 
     	return 0;

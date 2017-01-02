@@ -54,6 +54,8 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 
 		first.getC(diagonalAB);
 		//Diagonal AC need's to be calculated.
+		mpz_set(temp3, zero);
+		mpz_set(temp2, zero);
 		mpz_mul(temp3, temp1, temp1);
 		mpz_mul(temp2, temp4, temp4);
 		mpz_add(zero, temp2, temp3);
@@ -84,9 +86,11 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 
 		first.getC(diagonalAB);
 		//Diagonal AC need's to be calculated.
-		mpz_mul(temp3, temp1, temp1);
-		mpz_mul(temp2, temp4, temp4);
-		mpz_add(zero, temp2, temp3);
+		mpz_set(temp3, zero);
+		mpz_set(temp1, zero);
+		mpz_mul(temp3, temp2, temp2);
+		mpz_mul(temp1, temp4, temp4);
+		mpz_add(zero, temp1, temp3);
 		int sqrtable = mpz_perfect_square_p(zero);
 		if (sqrtable > 0){
 			mpz_root(diagonalAC, zero, 2);
@@ -109,22 +113,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	
 	//mpz_add(            first.getC2() + second.getC2() + diagonalAC2 )
 
-		/*
-		
-			mpz_t diagonalAC;
-			
-			
-			mpz_t spaceDiagonal2;
-
-
-
-			uint32_t hashB2;
-
-			uint32_t hashDiagAB;
-			uint32_t hashDaigAC;
-			uint32_t hashDaigBC;
-		*/
-
+	
 }
 
 
