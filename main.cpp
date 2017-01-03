@@ -22,43 +22,43 @@ int main()
 	mpz_t brickL, brickW, brickH;
 	mpz_init_set_str(brickL, "44", 10);
 	mpz_init_set_str(brickW, "117", 10);
-	mpz_init_set_str(brickL, "240", 10);
+	mpz_init_set_str(brickH, "240", 10);
 	
-	std::cout << "Here\n";
+	 
 
 	Multiplier mult;
 
-	SearchFunctions searcher;
-
 	PTriples test1;
 	PTriples test2;
-
-	std::cout << "There\n";	
-
+ 
 	Path path;
 
 	Node* node = new Node(test1, mult, -2, path, 0);
 	Node* node1 = new Node(test2, mult, -2, path, 0);
 
-	std::cout << "Everywhere \n";
+	//std::cout << "Everywhere \n";
 	
-	std::cout << std::hex << (*node).getUp().getAnchor().getAHash() << std::endl;
-	std::cout << std::hex << (*node1).getUp().getAnchor().getAHash() << std::endl;
+	PTriples firstAPT = (*node).getUp().getAnchor();
+	PTriples secondAPT = (*node1).getUp().getAnchor();
+	
+	//std::cout << std::hex << firstAPT.getAHash() << std::endl;
+	//std::cout << std::hex << secondAPT.getAHash() << std::endl;
 
-	bool eq = SearchFunctions::HashDiagonalEquals((*node).getUp().getAnchor(),(*node1).getUp().getAnchor());
-	if (eq){
+	//bool eq = SearchFunctions::HashDiagonalEquals(firstAPT,secondAPT);
+	//if (eq){
 
-		std::cout << "true" << std::endl;
+	//	std::cout << "true" << std::endl;
 
-	}
+	//}
 
-	std::cout << std::dec << SearchFunctions::CMP((*node).getUp().getAnchor(), (*node1).getUp().getAnchor(), 3, 1) << std::endl;
+	//std::cout << std::dec << SearchFunctions::CMP(firstAPT, secondAPT, 3, 1) << std::endl;
 
 
 	std::cout << "End of the line" << std::endl;
 
+	Node& refNode = * node;
 	
-	SearchFunctions::traverseTreeUtil((*node), (*node).getUp().getAnchor(), 3);
+	SearchFunctions::traverseTreeUtil(refNode, firstAPT, 4);
 
 	std::cout << "End of traverse" << std::endl;
 
@@ -68,6 +68,11 @@ int main()
 	PTriples mmatch = (*node).getUp().getAnchor();
 
 	mmatch.printOutTriple();
+
+
+
+
+
 
 	//Here, I'm testing the Euler Brick
 
@@ -86,10 +91,19 @@ int main()
 	(*eulerBrick).print();
 
 
-	std::cout << "Here's a match, is it a brick?" << std::endl;
+	//std::cout << "Here's a match, is it a brick?" << std::endl;
 	
-	EulerBrick* eulerB = new EulerBrick((*node).getUp().getAnchor(), (*node).getDown().getDown().getAnchor(),p,p);
-	(*eulerB).print();
+	//EulerBrick* eulerB = new EulerBrick(firstAPT, (*node).getDown().getDown().getAnchor(),p,p);
+	//(*eulerB).print();
+
+
+
+
+	std::cout << "A meandering stream of searching." << std::dec << std::endl;
+	
+	PTriples* trip = new PTriples(brickW, brickL, db);
+
+	SearchFunctions::traverseTreeUtil(refNode, (*trip), 4);
 
 
     	return 0;

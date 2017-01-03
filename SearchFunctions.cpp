@@ -14,7 +14,7 @@
 
 SearchFunctions::SearchFunctions(){ }
 
-bool SearchFunctions::rawEquals(PTriples firstT, PTriples secondT, int first, int second){
+bool SearchFunctions::rawEquals(PTriples& firstT, PTriples& secondT, int first, int second){
 
 	mpz_t temp1, temp2;
 	mpz_init_set_str(temp1, "0", 10);
@@ -59,7 +59,7 @@ bool SearchFunctions::rawEquals(PTriples firstT, PTriples secondT, int first, in
 }
 
 
-int SearchFunctions::CMP(PTriples firstT, PTriples secondT, int first, int second){
+int SearchFunctions::CMP(PTriples& firstT, PTriples& secondT, int first, int second){
 
 	mpz_t temp1, temp2;
 	mpz_init_set_str(temp1, "0", 10);
@@ -100,7 +100,7 @@ int SearchFunctions::CMP(PTriples firstT, PTriples secondT, int first, int secon
 }
 
 
-bool SearchFunctions::HashEquals(PTriples firstT, PTriples secondT, int first, int second){
+bool SearchFunctions::HashEquals(PTriples& firstT, PTriples& secondT, int first, int second){
 	
 	uint32_t a, b;
 	if (first == 1 && second == 1){
@@ -140,15 +140,14 @@ bool SearchFunctions::HashEquals(PTriples firstT, PTriples secondT, int first, i
 }
 
 
-	//TODO: FIGURE OUT WHY I CAN'T PASS BY REFERENCE.
-bool SearchFunctions::HashDiagonalEquals(PTriples firstT, PTriples secondT) {
+bool SearchFunctions::HashDiagonalEquals(PTriples& firstT, PTriples& secondT) {
 
 	if (firstT.getCHash() == secondT.getCHash() ){return true;}
 	return false;
 }
 
 
-int SearchFunctions::HashEqualsAny(PTriples firstT, PTriples secondT){
+int SearchFunctions::HashEqualsAny(PTriples& firstT, PTriples& secondT){
 	
 	uint32_t a1 = firstT.getAHash();
 	uint32_t b1 = firstT.getBHash();
@@ -171,13 +170,12 @@ int SearchFunctions::HashEqualsAny(PTriples firstT, PTriples secondT){
 
 }
 
-void SearchFunctions::traverseTreeUtil(Node rootNode, PTriples requirement, int depth){
+void SearchFunctions::traverseTreeUtil(Node& rootNode, PTriples& requirement, int depth){
 
 	PTriples nodeTriple = rootNode.getAnchor();
 	
-	nodeTriple.printOutTriple();
-	
-	//TODO: Figure out what to store this information at. 
+	//nodeTriple.printOutTriple();
+	 
 	int whereEqual = SearchFunctions::HashEqualsAny(nodeTriple, requirement);
 	
 
@@ -187,11 +185,18 @@ void SearchFunctions::traverseTreeUtil(Node rootNode, PTriples requirement, int 
 	}
 	
 	if ( depth > 0){
-		traverseTreeUtil(rootNode.getUp(), requirement, depth-1);
-		traverseTreeUtil(rootNode.getSide(), requirement, depth -1);
-		traverseTreeUtil(rootNode.getDown(), requirement, depth -1);
+		Node up = rootNode.getUp();
+		Node side = rootNode.getSide();
+		Node down = rootNode.getDown();
+		traverseTreeUtil(up, requirement, depth-1);
+		traverseTreeUtil(side, requirement, depth -1);
+		traverseTreeUtil(down, requirement, depth -1);
 	}
 }
 
+
+PTriples SearchFunctions::traveseToAndGet(Node& n, Path p){
+	
+}
 
 

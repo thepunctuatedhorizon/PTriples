@@ -75,7 +75,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		hashDiagAB = first.getCHash();
 		hashDiagAC = fnv.fnv1aHashOfMpz_t(diagonalAC);
 		hashDiagBC = second.getCHash();
-		} catch (int e) { std::cout << "caught the trown int" << std::endl;}
+		} catch (int e) { std::cout << "caught the trown int "  << e << std::endl;}
 
 
 	} else if (whereE == 2|| whereE ==4){
@@ -96,7 +96,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 			mpz_root(diagonalAC, zero, 2);
 		} else {
 			std::cout << "ERROR, NOT ROOTABLE" << std::endl;
-			throw 10;
+			throw 20;
 		}
 		second.getC(diagonalBC);
 
@@ -106,7 +106,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		hashDiagAB = first.getCHash();
 		hashDiagAC = fnv.fnv1aHashOfMpz_t(diagonalAC);
 		hashDiagBC = second.getCHash();
-		} catch (int e) { std::cout << "caught the trown int" << std::endl;}
+		} catch (int e) { std::cout << "caught the trown int " << e << std::endl;}
 	}
 	
 			

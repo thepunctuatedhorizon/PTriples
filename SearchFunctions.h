@@ -23,17 +23,19 @@
 			SearchFunctions();
 
 			//Depreciated
-			static bool rawEquals(PTriples firstT, PTriples secondT, int first, int second);
+			static bool rawEquals(PTriples& firstT, PTriples& secondT, int first, int second);
 
-			static int CMP(PTriples firstT, PTriples secondT, int first, int second);
+			static int CMP(PTriples& firstT, PTriples& secondT, int first, int second);
 
-			static bool HashEquals(PTriples firstT, PTriples secondT, int first, int second);
+			static bool HashEquals(PTriples& firstT, PTriples& secondT, int first, int second);
 
-			static bool HashDiagonalEquals(PTriples firstT, PTriples secondT);
+			static bool HashDiagonalEquals(PTriples& firstT, PTriples& secondT);
 
-			static void traverseTreeUtil(Node rootNode, PTriples requirement, int depth); 
+			static void traverseTreeUtil(Node& rootNode, PTriples& requirement, int depth); 
 
-			static int HashEqualsAny(PTriples firstT, PTriples secondT);
+			static int HashEqualsAny(PTriples& firstT, PTriples& secondT);
+
+			static PTriples traveseToAndGet(Node& n, Path p);
 		
 		
 		private:
