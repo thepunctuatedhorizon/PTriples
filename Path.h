@@ -25,6 +25,10 @@
 			void addDown();
 
 			void setRoot();
+		
+			int size() {return pathVector.size();}
+
+			int getInt(int i) {return pathVector[i];}
 			
 		private:
 			std::vector<int> pathVector;

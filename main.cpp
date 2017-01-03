@@ -105,6 +105,16 @@ int main()
 
 	SearchFunctions::traverseTreeUtil(refNode, (*trip), 4);
 
+	std::cout << " TOWSON UNIVERSITY GRAD" << std::endl;
+
+	Path pathss;
+	pathss.setRoot();
+	pathss.addUp();
+	pathss.addDown();
+	pathss.addDown();
+
+	PTriples result = SearchFunctions::traverseToAndGet((*node), pathss);
+	result.printOutTriple();
 
     	return 0;
 }

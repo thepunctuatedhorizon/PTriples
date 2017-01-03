@@ -195,8 +195,36 @@ void SearchFunctions::traverseTreeUtil(Node& rootNode, PTriples& requirement, in
 }
 
 
-PTriples SearchFunctions::traveseToAndGet(Node& n, Path p){
+PTriples SearchFunctions::traverseToAndGet(Node& n, Path p){
+	Node* fPointer = & n;
+	for (int i = 0; i < p.size(); i++){
+		Node* pointer = fPointer;
+		int goWhere = p.getInt(i);
+		if (goWhere == -2){
+			// good we initialized the path right
+		} else if (goWhere == 1) {
+			pointer = pointer->getU();
+		} else if (goWhere == 0) {
+			pointer = pointer->getS();
+		} else if (goWhere == -1) {
+			pointer = pointer->getD();
+		}
+		fPointer = pointer;
+	}
+	
+	return (*fPointer).getAnchor();
 	
 }
+
+
+
+
+
+
+
+
+
+
+
 
 

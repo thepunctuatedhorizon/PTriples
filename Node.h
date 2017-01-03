@@ -27,6 +27,13 @@ class Node
 		Node getUp() {return *up;}
 		Node getSide(){return *side;}
 		Node getDown(){return *down;}
+
+		Node* getU(){return up;}
+		Node* getS(){return side;}
+		Node* getD() {return down;}
+
+		int getDepth() {return depth;}	
+		
 		PTriples getAnchor(){return nodeAnchor;}
 		Path getPath() {return path;}
 

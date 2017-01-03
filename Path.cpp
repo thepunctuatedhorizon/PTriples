@@ -39,5 +39,8 @@ void Path::addDown(){
 }
 
 void Path::setRoot(){
-	
+
+	pathVector.clear();
+	pathVector.reserve(MAX_PATH_LENGTH);
+	pathVector.push_back(-2);
 }

@@ -35,7 +35,7 @@
 
 			static int HashEqualsAny(PTriples& firstT, PTriples& secondT);
 
-			static PTriples traveseToAndGet(Node& n, Path p);
+			static PTriples traverseToAndGet(Node& n, Path p);
 		
 		
 		private:
