@@ -7,6 +7,8 @@
  *
  */
 
+
+#include <stdio.h>
 #include <gmp.h>
 #include <gmpxx.h>
 
@@ -27,7 +29,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	//TODO: MAKE IT FIND THE SHORTEST SIDE!!
 	
 	mpz_t temp1, temp2, temp3, temp4;
-	mpz_t diagT1, diagT2, zero;
+	mpz_t diagT1, diagT2, zero, one;
 	mpz_init_set_str(temp1, "0", 10);
 	mpz_init_set_str(temp2, "0", 10);
 	mpz_init_set_str(temp3, "0", 10);
@@ -35,6 +37,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	mpz_init_set_str(diagT1, "0", 10);
 	mpz_init_set_str(diagT2, "0", 10);
 	mpz_init_set_str(zero, "0",10);
+	mpz_init_set_str(one, "1", 10);
 	FNV fnv;
 
 	first.getA(temp1);
@@ -58,11 +61,11 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		mpz_set(temp2, zero);
 		mpz_mul(temp3, temp1, temp1);
 		mpz_mul(temp2, temp4, temp4);
-		mpz_add(zero, temp2, temp3);
-		int sqrtable = mpz_perfect_square_p(zero);
+		mpz_add(diagT1, temp2, temp3);
+		int sqrtable = mpz_perfect_square_p(diagT1);
 	
 		if (sqrtable > 0){
-			mpz_root(diagonalAC, zero, 2);
+			mpz_root(diagonalAC, diagT1, 2);
 		} else {
 			std::cout << "ERROR, NOT ROOTABLE" << std::endl;
 			throw 10;
@@ -90,10 +93,10 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		mpz_set(temp1, zero);
 		mpz_mul(temp3, temp2, temp2);
 		mpz_mul(temp1, temp4, temp4);
-		mpz_add(zero, temp1, temp3);
-		int sqrtable = mpz_perfect_square_p(zero);
+		mpz_add(diagT2, temp1, temp3);
+		int sqrtable = mpz_perfect_square_p(diagT2);
 		if (sqrtable > 0){
-			mpz_root(diagonalAC, zero, 2);
+			mpz_root(diagonalAC, diagT2, 2);
 		} else {
 			std::cout << "ERROR, NOT ROOTABLE" << std::endl;
 			throw 20;
@@ -109,9 +112,36 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		} catch (int e) { std::cout << "caught the trown int " << e << std::endl;}
 	}
 	
-			
-	
-	//mpz_add(            first.getC2() + second.getC2() + diagonalAC2 )
+	mpz_set(temp1, zero);
+	mpz_set(temp2, zero);
+	mpz_set(temp3, zero);
+	mpz_set(temp4, zero);
+	mpz_set(diagT1, zero);
+	mpz_set(diagT2, zero);
+
+	mpz_mul(temp1, a, a);
+	mpz_mul(temp2, b, b);
+	mpz_mul(temp3, c, c);
+
+	mpz_add(temp4, temp1, temp2);
+	mpz_add(spaceDiagonal2, temp4, temp3);
+
+	int spaceDiag = mpz_perfect_square_p(spaceDiagonal2);
+	if (spaceDiag>0) { 
+		isPerfect = true;
+		mpz_root( perfectSpaceDiagonal, spaceDiagonal2, 2);
+	} else {
+		isPerfect = false;
+		mpf_set_default_prec(10000000);
+		mpf_t spD;
+		mpf_init(spD);
+		mpf_set_z(spD, spaceDiagonal2);
+		size_t size = 0;
+		mpf_out_str(stdout, 10, size, spD);
+		std::cout<< std::endl;
+
+		//mpf_sqrt(spaceDiagonal, spD);
+	}
 
 	
 }
@@ -140,6 +170,11 @@ void EulerBrick::print(){
 	std::cout << std::hex << hashA << ", ";
 	std::cout << hashB << ", " << hashC ;
 	std::cout << ">" << std::endl;
+
+	std::cout << "Space diagonal ";
+	if (isPerfect){ std::cout << "IS ";}
+	else{ std::cout << "is NOT ";}
+	std::cout << "a perfect Brick" << std::endl;
 	
 }
 

@@ -39,6 +39,8 @@
 			uint32_t getHashDiagBC() {return hashDiagBC;}
 		
 		private:
+
+			bool isPerfect;
 			Path pathFirst;
 			Path pathSecond;
 
@@ -54,6 +56,8 @@
 			mpz_t diagonalBC;
 			
 			mpz_t spaceDiagonal2;
+			mpz_t perfectSpaceDiagonal;
+			mpf_t spaceDiagonal;
 
 			uint32_t hashA;
 			uint32_t hashB;

@@ -101,9 +101,9 @@ int main()
 
 	std::cout << "A meandering stream of searching." << std::dec << std::endl;
 	
-	PTriples* trip = new PTriples(brickW, brickL, db);
+	//PTriples* trip = new PTriples(brickW, brickL, db);
 
-	SearchFunctions::traverseTreeUtil(refNode, (*trip), 4);
+	//SearchFunctions::traverseTreeUtil(refNode, (*trip), 3);
 
 	std::cout << " TOWSON UNIVERSITY GRAD" << std::endl;
 
@@ -113,8 +113,8 @@ int main()
 	pathss.addDown();
 	pathss.addDown();
 
-	PTriples result = SearchFunctions::traverseToAndGet((*node), pathss);
-	result.printOutTriple();
+	//PTriples result = SearchFunctions::traverseToAndGet((*node), pathss);
+	//result.printOutTriple();
 
     	return 0;
 }
