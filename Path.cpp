@@ -8,6 +8,7 @@
 
 #include "Path.h"
 #include "Node.h"
+#include <string>
 
 const size_t MAX_PATH_LENGTH = 15;
 Path::Path() {
@@ -44,3 +45,19 @@ void Path::setRoot(){
 	pathVector.reserve(MAX_PATH_LENGTH);
 	pathVector.push_back(-2);
 }
+
+std::string Path::getPath(){
+
+	char path[pathVector.size()];
+	for (int i = 0; i < pathVector.size(); i++){
+		path[i] = pathVector[i];
+	}
+	std::string returnPath = path;
+	return returnPath;
+}
+
+
+
+
+
+

@@ -1,9 +1,9 @@
 /*
  *
- * File: EulerBrick.cpp
+ * File: EBVerify.cpp
  * Author: jtucker
  *
- * Created 12_30_16
+ * Created 1_4_17
  *
  */
 
@@ -15,20 +15,18 @@
 #include "PTriples.h"
 #include "EulerBrick.h"
 #include "SearchFunctions.h"
+#include "EBVerify.h"
 
-EulerBrick::EulerBrick(){
 
-//NOT TO BE USED!
-	std::cout<< "NOT TO BE USED!!!" << std::endl;
+EBVerify::EBVerify(EulerBrick brick) {
 
-}
 
-EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
+ 	//TODO: VERIFICATION CODE!
 
-	first = fst;
-	second = scnd;
-	pathFirst = pth1;
-	pathSecond =pth2;
+	first = brick.getFirstPTriple();
+	second = brick.getSecondPTriple();
+	pathFirst = brick.getPath1();
+	pathSecond = brick.getPath2();
 
 	
 
@@ -137,7 +135,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	if (spaceDiag>0) { 
 		isPerfect = true;
 		mpz_root( perfectSpaceDiagonal, spaceDiagonal2, 2);
-		//mpz_out_str(stdout, 10, perfectSpaceDiagonal);
+		mpz_out_str(stdout, 10, perfectSpaceDiagonal);
 	} else {
 		isPerfect = false;
 		mpf_set_default_prec(100);
@@ -145,110 +143,32 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		mpf_init(spD);
 		mpf_init(spaceDiagonal);
 		mpf_set_z(spD, spaceDiagonal2);
-		size_t size = 0;
-		mpf_out_str(stdout, 10, size, spD);
-		std::cout<< std::endl;
+		//size_t size = 0;
+		//mpf_out_str(stdout, 10, size, spD);
+		//std::cout<< std::endl;
 
 		mpf_sqrt(spaceDiagonal, spD);
 	}
 
+
+	// TODO: FIGURE OUT HOW TO MAKE IT FIND THE TRIPLE IN THE PATH.
+
+	// TODO: Verify
 	
-}
-
-
-
-
-void EulerBrick::print(){
-	std::cout << "This Brick has the following signatures" << std::endl;
-	std:: cout << "<";
-	mpz_out_str(stdout,10,a);
-        std::cout << ", ";
-        mpz_out_str(stdout,10,b);
-        std::cout << ", ";
-        mpz_out_str(stdout,10,c);
-        std::cout << ">" << std::endl;
-	std::cout << "DiagonalAB: ";
-	mpz_out_str(stdout,10,diagonalAB);
-	std::cout << std::endl << "DiagonalAC:";
-	mpz_out_str(stdout,10,diagonalAC);
-	std::cout << std::endl << "DiagonalBC:";
-	mpz_out_str(stdout,10,diagonalBC);
-	std::cout << std::endl;
-
-	std::cout << "Hashs: <";
-	std::cout << std::hex << hashA << ", ";
-	std::cout << hashB << ", " << hashC ;
-	std::cout << ">" << std::endl;
-
-	std::cout << "Space diagonal ";
-	if (isPerfect){ 
-		std::cout << "IS a perfect Brick" << std::endl;
-		std::cout <<  "It does have a space diagonal of: ";
-		mpz_out_str(stdout, 10, perfectSpaceDiagonal);
-		std::cout << std::endl;
+	if (brick.getHashA() == hashA && brick.getHashB() == hashB && brick.getHashC() == hashC)
+	{
+		std::cout << "This is a match, it computes. I'm happy to report this checked out." << std::endl;
 	}
-	else{ 
-		std::cout << "is NOT ";
-		std::cout << "a perfect Brick" << std::endl;
-		std::cout << "Even though it wasn't a perfect brick," << std::endl;
-		std::cout <<  "it does have a space diagonal of: ";
-		mpf_out_str(stdout, 10, 10, spaceDiagonal);
-		std::cout << std::endl;
-	}
-	
-	
-}
-
-bool EulerBrick::isBrickClose(){
-
-
-	return false;
-}
-
-
-PTriples EulerBrick::getFirstPTriple(){
-
-	return first;
 
 }
 
-PTriples EulerBrick::getSecondPTriple() {
 
-	return second;
+EBVerify::EBVerify(BrickCoin coin){
 
-}
-
-std::string EulerBrick::getA(){
-
-	return mpz_get_str(NULL, 10, a);
-        
-}
-
-std::string EulerBrick::getB(){
-
-	return mpz_get_str(NULL, 10, b);
-
-}
-
-std::string EulerBrick::getC(){
-
-	return mpz_get_str(NULL, 10, c);
-}
-		
-std::string EulerBrick::getDiagonalAB(){
-	return mpz_get_str(NULL, 10, diagonalAB);
-}
-
-std::string EulerBrick::getDiagonalAC(){
-	return mpz_get_str(NULL, 10, diagonalAC);
-}
-
-std::string EulerBrick::getDiagonalBC(){
-	return mpz_get_str(NULL, 10, diagonalBC);
-}
 
 
 
+}
 
 
 

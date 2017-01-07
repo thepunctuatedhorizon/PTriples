@@ -15,6 +15,8 @@
 
 #include "EulerBrick.h"
 
+#include "EBVerify.h"
+
 
 int main()
 {
@@ -101,9 +103,9 @@ int main()
 
 	std::cout << "A meandering stream of searching." << std::dec << std::endl;
 	
-	//PTriples* trip = new PTriples(brickW, brickL, db);
+	PTriples* trip = new PTriples(brickW, brickL, db);
 
-	//SearchFunctions::traverseTreeUtil(refNode, (*trip), 3);
+	SearchFunctions::traverseTreeUtil(refNode, (*trip), 3);
 
 	std::cout << " TOWSON UNIVERSITY GRAD" << std::endl;
 
@@ -113,8 +115,30 @@ int main()
 	pathss.addDown();
 	pathss.addDown();
 
-	//PTriples result = SearchFunctions::traverseToAndGet((*node), pathss);
-	//result.printOutTriple();
+	PTriples result = SearchFunctions::traverseToAndGet((*node), pathss);
+	result.printOutTriple();
+
+	//Testing the new confirmation system.
+
+	std::cout << "* Testing *" << std::endl;
+
+	EBVerify * verifier = new EBVerify((*eulerBrick));
+
+	std::cout << (*eulerBrick).getA() << std::endl;
+
+	std::cout << (*eulerBrick).getB() << std::endl;
+
+	std::cout << (*eulerBrick).getC() << std::endl;
+
+	std::cout << (*eulerBrick).getDiagonalAB() << std::endl;
+
+	std::cout << (*eulerBrick).getDiagonalAC() << std::endl;
+	std::cout << (*eulerBrick).getDiagonalBC() << std::endl;
+
+	BrickCoin* coin = new BrickCoin( (*eulerBrick));
+
+	std::cout << (*coin).getSignature() << std::endl;
+	std::cout << (*coin).getHashSignature() << std::endl;
 
     	return 0;
 }

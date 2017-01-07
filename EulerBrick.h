@@ -20,19 +20,32 @@
 	class EulerBrick{
 
 		public:
+			EulerBrick();
 			EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2);
 
 			bool isBrickPerfect();
 
+			bool isBrickClose();
+
 			void print();
+
+			PTriples getFirstPTriple();
+			PTriples getSecondPTriple();
+
+			Path getPath1() { return pathFirst;}
+			Path getPath2() { return pathSecond;}
+
+			std::string getA();
+			std::string getB();
+			std::string getC();
+		
+			std::string getDiagonalAB();
+			std::string getDiagonalAC();
+			std::string getDiagonalBC();
 
 			uint32_t getHashA() {return hashA;}
 			uint32_t getHashB() {return hashB;}
 			uint32_t getHashC() {return hashC;}
-		
-			uint32_t getHashA2() {return hashA2;}
-			uint32_t getHashB2() {return hashB2;}
-			uint32_t getHashC2() {return hashC2;}
 
 			uint32_t getHashDaigAB() {return hashDiagAB;}
 			uint32_t getHashDaigAC() {return hashDiagAC;}
