@@ -45,6 +45,9 @@ BrickCoin::BrickCoin(EulerBrick brck){
 		signature = "<"+brick.getA() + ", " + brick.getB() + ", " + brick.getC() + ">\n";
 	
 		signature = signature + "<" + hashA + ", " + hashB + ", " + hashC + ">";
+	} else {
+	
+		signature = "Coin Not Valid";
 	}
 	
 

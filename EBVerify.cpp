@@ -32,6 +32,7 @@ EBVerify::EBVerify(EulerBrick brick) {
 	pathFirst = brick.getPath1();
 	pathSecond = brick.getPath2();
 	verified = false;
+	pathVerified = false;
 
 	
 	
@@ -154,10 +155,19 @@ EBVerify::EBVerify(EulerBrick brick) {
 
 
 	// TODO: FIGURE OUT HOW TO MAKE IT FIND THE TRIPLE IN THE PATH.
+	PTriples fst = SearchFunctions::createFromPath(pathFirst);
+	PTriples snd = SearchFunctions::createFromPath(pathSecond);
+
+	bool firstCheck = SearchFunctions::HashAllEquals(first, fst);
+	bool secondCheck = SearchFunctions::HashAllEquals(second, snd);
+
+	if ( firstCheck && secondCheck){
+		pathVerified = true;
+	}
 
 	// TODO: Verify all hashs?
 	
-	if (brick.getHashA() == hashA && brick.getHashB() == hashB && brick.getHashC() == hashC)
+	if (pathVerified && brick.getHashA() == hashA && brick.getHashB() == hashB && brick.getHashC() == hashC)
 	{
 		verified = true;
 		std::cout << "This is a match, it computes. I'm happy to report this checked out." << std::endl;

@@ -61,6 +61,7 @@
 			uint32_t hashDiagBC;
 
 			bool verified;
+			bool pathVerified;
 
 
 

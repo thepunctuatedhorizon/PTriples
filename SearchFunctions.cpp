@@ -170,6 +170,25 @@ int SearchFunctions::HashEqualsAny(PTriples& firstT, PTriples& secondT){
 
 }
 
+bool SearchFunctions::HashAllEquals(PTriples& firstT, PTriples& secondT){
+	
+	uint32_t a1 = firstT.getAHash();
+	uint32_t b1 = firstT.getBHash();
+	uint32_t c1 = firstT.getCHash();
+
+	uint32_t a2 = secondT.getAHash();
+	uint32_t b2 = secondT.getBHash();
+	uint32_t c2 = secondT.getCHash();
+
+
+	if (a1 == a2 && b1 == b2 && c1 == c2){
+		return true;
+	}  else {
+		return false;
+	}
+
+}
+
 void SearchFunctions::traverseTreeUtil(Node& rootNode, PTriples& requirement, int depth){
 
 	PTriples nodeTriple = rootNode.getAnchor();
@@ -216,7 +235,25 @@ PTriples SearchFunctions::traverseToAndGet(Node& n, Path p){
 	
 }
 
+PTriples SearchFunctions::createFromPath(Path p){
+	PTriples cur;
+	Multiplier mult;
 
+	for ( int i = 0; i < p.size(); i++ )
+	{
+		int dir = p.getInt(i);
+		if (dir == -2){
+		 	//We don't need to do anything, the path is set up right.
+		} else if (dir == 1) {
+			cur = mult.hit(cur, 1);
+		} else if (dir == 0) {
+			cur = mult.hit(cur, 2);
+		} else if (dir == -1) {
+			cur = mult.hit(cur, 3);
+		}
+	}
+	return cur;
+}
 
 
 
