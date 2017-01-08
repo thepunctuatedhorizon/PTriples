@@ -19,6 +19,8 @@
 EulerBrick::EulerBrick(){
 
 //NOT TO BE USED!
+	//Why must the argumentless constructor be defined?
+
 	std::cout<< "NOT TO BE USED!!!" << std::endl;
 
 }
@@ -30,10 +32,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	pathFirst = pth1;
 	pathSecond =pth2;
 
-	
-
-	//Let's let the shortest side be a.
-	//TODO: MAKE IT FIND THE SHORTEST SIDE!!
+	//How do we prevent <a,b,c> brick = <b, c, a> brick = <c, a, b> etc.?
 	
 	mpz_t temp1, temp2, temp3, temp4;
 	mpz_t diagT1, diagT2, zero, one;
@@ -247,6 +246,31 @@ std::string EulerBrick::getDiagonalBC(){
 	return mpz_get_str(NULL, 10, diagonalBC);
 }
 
+void EulerBrick::getShortestSide(mpz_t returnside){
+
+	int aTOb = mpz_cmp(a,b);
+	int aTOc = mpz_cmp(a,c);
+	int bTOc = mpz_cmp(b,c);
+
+	if (aTOb > 0 && aTOc > 0 && bTOc > 0){
+		mpz_set(returnside,c);
+	}
+	if (aTOb < 0 && aTOc > 0 && bTOc > 0){
+		mpz_set(returnside,c);
+	}
+	if (aTOb < 0 && aTOc < 0 && bTOc > 0){
+		mpz_set(returnside, a);
+	}
+	if (aTOb < 0 && aTOc < 0 && bTOc < 0) {
+		mpz_set(returnside, a);
+	}
+	if (aTOb > 0 && aTOc > 0 && bTOc < 0) {
+		mpz_set(returnside, b);
+	}
+	if ( aTOb >0 && aTOc < 0 && bTOc < 0) {
+		mpz_set(returnside, b);
+	}
+}
 
 
 

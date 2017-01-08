@@ -29,6 +29,8 @@
 
 			void print();
 
+			void getShortestSide(mpz_t returnside);
+
 			PTriples getFirstPTriple();
 			PTriples getSecondPTriple();
 

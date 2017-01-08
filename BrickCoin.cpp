@@ -57,7 +57,8 @@ std::string BrickCoin::getSignature(){
 
 std::string BrickCoin::getHashSignature(){
 
-	const unsigned char data[ ] = "This is the signature, NOT";
+	unsigned char data[sizeof(signature)];
+	strcpy((char *)data,signature.c_str());
 	unsigned char hash[SHA512_DIGEST_LENGTH];
 	SHA512(data, sizeof(data), hash);
 

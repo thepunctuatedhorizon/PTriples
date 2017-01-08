@@ -31,7 +31,7 @@ class PTriples
         //void getB2(mpz_t& result){  mpz_set(result, b2);}
         //void getC2(mpz_t& result){  mpz_set(result, c2);}
 
-        int printOutTriple();
+        void printOutTriple();
 	
 	uint32_t getAHash(){ return ha;}
 	uint32_t getBHash(){ return hb;}

@@ -33,9 +33,7 @@ Node::Node(PTriples& nodeAnchr, Multiplier& mult, int dir, Path oldPath, int dpt
 		path.addDown();
 	} else if (dir == -2) {
 		path.setRoot();
-	} else { 
-		std::cout << "THERE WAS AN ERROR"  << std::endl;
-	}
+	} 
 
 	nodeAnchor = nodeAnchr;
 	

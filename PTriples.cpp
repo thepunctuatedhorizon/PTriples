@@ -61,7 +61,7 @@ PTriples::PTriples(mpz_t& nA, mpz_t& nB, mpz_t& nC){
 
 
 
-int PTriples::printOutTriple() {
+void PTriples::printOutTriple() {
 
 	std::cout << "<";	
         mpz_out_str(stdout,10,a);
@@ -70,8 +70,6 @@ int PTriples::printOutTriple() {
         std::cout << ", ";
         mpz_out_str(stdout,10,c);
         std::cout << ">" << std::endl;
-
-	return 0;
 }
 
 

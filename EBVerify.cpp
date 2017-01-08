@@ -25,7 +25,7 @@ EBVerify::EBVerify(){
 EBVerify::EBVerify(EulerBrick brick) {
 
 
- 	//TODO: VERIFICATION CODE!
+ 	//TODO: VERIFICATION OF THE PATH!
 
 	first = brick.getFirstPTriple();
 	second = brick.getSecondPTriple();
@@ -34,9 +34,6 @@ EBVerify::EBVerify(EulerBrick brick) {
 	verified = false;
 
 	
-
-	//Let's let the shortest side be a.
-	//TODO: MAKE IT FIND THE SHORTEST SIDE!!
 	
 	mpz_t temp1, temp2, temp3, temp4;
 	mpz_t diagT1, diagT2, zero, one;
@@ -158,7 +155,7 @@ EBVerify::EBVerify(EulerBrick brick) {
 
 	// TODO: FIGURE OUT HOW TO MAKE IT FIND THE TRIPLE IN THE PATH.
 
-	// TODO: Verify
+	// TODO: Verify all hashs?
 	
 	if (brick.getHashA() == hashA && brick.getHashB() == hashB && brick.getHashC() == hashC)
 	{
