@@ -17,6 +17,10 @@
 #include "SearchFunctions.h"
 #include "EBVerify.h"
 
+EBVerify::EBVerify(){
+	verified = false;
+}
+
 
 EBVerify::EBVerify(EulerBrick brick) {
 
@@ -27,6 +31,7 @@ EBVerify::EBVerify(EulerBrick brick) {
 	second = brick.getSecondPTriple();
 	pathFirst = brick.getPath1();
 	pathSecond = brick.getPath2();
+	verified = false;
 
 	
 
@@ -157,11 +162,15 @@ EBVerify::EBVerify(EulerBrick brick) {
 	
 	if (brick.getHashA() == hashA && brick.getHashB() == hashB && brick.getHashC() == hashC)
 	{
+		verified = true;
 		std::cout << "This is a match, it computes. I'm happy to report this checked out." << std::endl;
 	}
 
 }
 
+bool EBVerify::didItVerify(){
+	return verified;
+}
 
 EBVerify::EBVerify(BrickCoin coin){
 

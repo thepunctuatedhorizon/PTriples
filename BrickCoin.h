@@ -24,7 +24,7 @@
 
 			std::string getSignature();
 		
-			unsigned char* getHashSignature();
+			std::string getHashSignature();
 
 		private:
 			

@@ -20,6 +20,7 @@
 
 	class EBVerify{
 		public:
+			EBVerify();
 			EBVerify(EulerBrick brick);
 			EBVerify(BrickCoin coin);
 		
@@ -58,6 +59,8 @@
 			uint32_t hashDiagAB;
 			uint32_t hashDiagAC;
 			uint32_t hashDiagBC;
+
+			bool verified;
 
 
 
