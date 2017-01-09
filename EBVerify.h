@@ -23,6 +23,7 @@
 			EBVerify();
 			EBVerify(EulerBrick brick);
 			EBVerify(BrickCoin coin);
+			EBVerify(std::string coin);
 		
 			bool didItVerify();
 

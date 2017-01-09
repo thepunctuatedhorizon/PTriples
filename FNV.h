@@ -54,12 +54,12 @@
 			FNV();
 			
 
-			uint32_t fnv1a(unsigned char oneByte, uint32_t hash)
+			static uint32_t fnv1a(unsigned char oneByte, uint32_t hash)
 			{
 				return (oneByte ^ hash) * Prime;
 			}
 
-			uint32_t fnv1aArray(const auto bytes)
+			static uint32_t fnv1aArray(const auto bytes)
 			{
 				uint32_t hash = Seed;
 				for(byte b : bytes){
@@ -68,7 +68,7 @@
 				return hash;
 			}
 			
-			uint32_t fnv1aHashOfMpz_t(const mpz_t x)
+			static uint32_t fnv1aHashOfMpz_t(const mpz_t x)
 			{
 				size_t size = (mpz_sizeinbase (x, 2) + CHAR_BIT-1) / CHAR_BIT;
     				std::vector<byte> v(size);

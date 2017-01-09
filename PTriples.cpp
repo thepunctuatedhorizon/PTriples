@@ -16,46 +16,27 @@ PTriples::PTriples(){
 	mpz_init_set_str (a,"3",10);
 	mpz_init_set_str (b,"4",10);
 	mpz_init_set_str (c,"5",10);
-
-	//We shouldn't need
-	//mpz_init_set_str (a2,"9",10);
-	//mpz_init_set_str (b2,"16",10);
-	//mpz_init_set_str (c2,"25",10);
 	
-	FNV fnv;
-
-	ha = fnv.fnv1aHashOfMpz_t(a);
-	hb = fnv.fnv1aHashOfMpz_t(b);
-	hc = fnv.fnv1aHashOfMpz_t(c);	
-
-	//We shouldn't need.
-	//ha2 = fnv.fnv1aHashOfMpz_t(a2);
-	//hb2 = fnv.fnv1aHashOfMpz_t(b2);
-	//hc2 = fnv.fnv1aHashOfMpz_t(c2);
+	ha = FNV::fnv1aHashOfMpz_t(a);
+	hb = FNV::fnv1aHashOfMpz_t(b);
+	hc = FNV::fnv1aHashOfMpz_t(c);	
  
 }
 
-PTriples::PTriples(mpz_t& nA, mpz_t& nB, mpz_t& nC){
+PTriples::PTriples(mpz_t & nA, mpz_t & nB, mpz_t & nC){
+
+	mpz_init_set_str(a, "0", 10);
+	mpz_init_set_str(b, "0", 10);
+	mpz_init_set_str(c, "0", 10);
 
 	mpz_set(a, nA);
 	mpz_set(b, nB);
 	mpz_set(c, nC);
 
-	//We shouldn't need!
-	//mpz_mul(a2, nA, nA);
-	//mpz_mul(b2, nB, nB);
-	//mpz_mul(c2, nC, nC);
+	ha = FNV::fnv1aHashOfMpz_t(a);
+	hb = FNV::fnv1aHashOfMpz_t(b);
+	hc = FNV::fnv1aHashOfMpz_t(c);
 
-	FNV fnv;
-
-	ha = fnv.fnv1aHashOfMpz_t(a);
-	hb = fnv.fnv1aHashOfMpz_t(b);
-	hc = fnv.fnv1aHashOfMpz_t(c);
-
-	//We shouldn't need!
-	//ha2 = fnv.fnv1aHashOfMpz_t(a2);
-	//hb2 = fnv.fnv1aHashOfMpz_t(b2);
-	//hc2 = fnv.fnv1aHashOfMpz_t(c2);
 }
 
 

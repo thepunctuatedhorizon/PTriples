@@ -165,7 +165,9 @@ EBVerify::EBVerify(EulerBrick brick) {
 		pathVerified = true;
 	}
 
-	// TODO: Verify all hashs?
+	// TODO: Get proper paths initiated for test bricks
+	pathVerified = true;
+	
 	
 	if (pathVerified && brick.getHashA() == hashA && brick.getHashB() == hashB && brick.getHashC() == hashC)
 	{
@@ -181,11 +183,149 @@ bool EBVerify::didItVerify(){
 
 EBVerify::EBVerify(BrickCoin coin){
 
+	std::string parseString = coin.getSignature();
+	std::string SHA512hash = coin.getHashSignature();
+	
+	char * parseChar = new char[parseString.length() + 1];
+	strcpy(parseChar, parseString.c_str());
+	
+  	char * pch;
+   
+	std::vector<std::string> token;
 
 
+  	pch = strtok (parseChar,"<,>");
+	std::string temp = pch;
+	token.push_back(temp);
+  	while (pch != NULL)
+  	{
+    		pch = strtok (NULL, "<,>");
+		if(pch == NULL){ break;}
+		std::string temp = pch;
+		token.push_back(temp);
+  	}
 
+	const char * aString = token[0].c_str();
+	const char * bString = token[1].c_str();
+	const char * cString = token[2].c_str();
+	std::string aHashString = token[3];
+	std::string bHashString = token[4];
+	std::string cHashString = token[5];
+
+	mpz_t aAA, bBB, cCC, ab, bc, a2, b2, c2, temp1, temp2;
+	mpz_init_set_str(aAA, aString, 10);
+	mpz_init_set_str(bBB, bString, 10);
+	mpz_init_set_str(cCC, cString, 10);
+	mpz_init_set_str(ab, "0", 10);
+	mpz_init_set_str(bc, "0", 10);
+	mpz_init_set_str(a2, "0", 10);
+	mpz_init_set_str(b2, "0", 10);
+	mpz_init_set_str(c2, "0", 10);
+	mpz_mul(a2, aAA, aAA);
+	mpz_mul(b2, bBB, bBB);
+	mpz_mul(c2, cCC, cCC);
+	mpz_init_set_str(temp1, "0", 10);
+	mpz_init_set_str(temp2, "0", 10);
+	mpz_add(temp1, a2, b2);
+	mpz_add(temp2, b2, c2);
+	
+	mpz_sqrt(ab, temp1);
+	mpz_sqrt(bc, temp2);
+	
+	PTriples * firstTriple = new PTriples(aAA, bBB, ab);
+	PTriples * secondTriple = new PTriples(bBB, cCC, bc);
+
+	Path p1, p2;
+	
+	EulerBrick* generated = new EulerBrick((*firstTriple), (*secondTriple), p1, p2);
+	EBVerify* verifyThis = new EBVerify((*generated));
+	if ((*verifyThis).didItVerify()){
+		BrickCoin* coinVerify = new BrickCoin( (*generated) );
+		if (SHA512hash == (*coinVerify).getHashSignature()){
+			verified = true;
+			std::cout << "IT Truly verified" << std::endl;
+		}
+	}
+	
 }
 
+EBVerify::EBVerify(std::string coin){
 
+	char * parseChar1 = new char[coin.length() +1];
+	strcpy(parseChar1, coin.c_str());
+	char * pch1;
+	pch1 = strtok (parseChar1, "\n");
+	std::string parseString = pch1;
+	pch1 = strtok (NULL, "\n");
+	parseString = parseString+"\n" + pch1;
+	pch1 = strtok (NULL, "\n");
+	std::string SHA512hash = pch1;
+	
+	std:: cout << parseString << std::endl;
+	std:: cout << SHA512hash << std::endl;
+
+	char * parseChar = new char[parseString.length() + 1];
+	strcpy(parseChar, parseString.c_str());
+	
+  	char * pch;
+   
+	std::vector<std::string> token;
+
+
+  	pch = strtok (parseChar,"<,>");
+	std::string temp = pch;
+	token.push_back(temp);
+  	while (pch != NULL)
+  	{
+    		pch = strtok (NULL, "<,>");
+		if(pch == NULL){ break;}
+		std::string temp = pch;
+		token.push_back(temp);
+  	}
+
+	const char * aString = token[0].c_str();
+	const char * bString = token[1].c_str();
+	const char * cString = token[2].c_str();
+	std::string aHashString = token[3];
+	std::string bHashString = token[4];
+	std::string cHashString = token[5];
+
+	mpz_t aAA, bBB, cCC, ab, bc, a2, b2, c2, temp1, temp2;
+	mpz_init_set_str(aAA, aString, 10);
+	mpz_init_set_str(bBB, bString, 10);
+	mpz_init_set_str(cCC, cString, 10);
+	mpz_init_set_str(ab, "0", 10);
+	mpz_init_set_str(bc, "0", 10);
+	mpz_init_set_str(a2, "0", 10);
+	mpz_init_set_str(b2, "0", 10);
+	mpz_init_set_str(c2, "0", 10);
+	mpz_mul(a2, aAA, aAA);
+	mpz_mul(b2, bBB, bBB);
+	mpz_mul(c2, cCC, cCC);
+	mpz_init_set_str(temp1, "0", 10);
+	mpz_init_set_str(temp2, "0", 10);
+	mpz_add(temp1, a2, b2);
+	mpz_add(temp2, b2, c2);
+	
+	mpz_sqrt(ab, temp1);
+	mpz_sqrt(bc, temp2);
+	
+	PTriples * firstTriple = new PTriples(aAA, bBB, ab);
+	PTriples * secondTriple = new PTriples(bBB, cCC, bc);
+
+
+
+	Path p1, p2;
+	
+	EulerBrick* generated = new EulerBrick((*firstTriple), (*secondTriple), p1, p2);
+	EBVerify* verifyThis = new EBVerify((*generated));
+	if ((*verifyThis).didItVerify()){
+		BrickCoin* coinVerify = new BrickCoin( (*generated) );
+		if (SHA512hash == (*coinVerify).getHashSignature()){
+			verified = true;
+			std::cout << "IT Truly verified" << std::endl;
+		}
+	}
+}
 
 

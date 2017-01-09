@@ -30,6 +30,7 @@
 			
 			std::string signature;
 			EulerBrick brick;
+			bool didItVerify;
 	};
 
 

@@ -24,10 +24,11 @@
 BrickCoin::BrickCoin(EulerBrick brck){
 
 	brick = brck;
-	
+	didItVerify = false;
 	EBVerify* verifier = new EBVerify(brick);
+	didItVerify =(*verifier).didItVerify();
 
-	if ((*verifier).didItVerify()){
+	if (didItVerify){
 
 
 		char hashA[17];
@@ -60,16 +61,20 @@ std::string BrickCoin::getSignature(){
 
 std::string BrickCoin::getHashSignature(){
 
-	unsigned char data[sizeof(signature)];
-	strcpy((char *)data,signature.c_str());
-	unsigned char hash[SHA512_DIGEST_LENGTH];
-	SHA512(data, sizeof(data), hash);
-
 	char mdString[SHA512_DIGEST_LENGTH*2+1];
- 
-	for(int i = 0; i < SHA512_DIGEST_LENGTH; i++){
-		std::sprintf(&mdString[i*2], "%02x", (unsigned int)hash[i]);
- 	}
+	if(didItVerify) {
+		unsigned char data[sizeof(signature)];
+		strcpy((char *)data,signature.c_str());
+		unsigned char hash[SHA512_DIGEST_LENGTH];
+		SHA512(data, sizeof(data), hash);
 
+		
+ 
+		for(int i = 0; i < SHA512_DIGEST_LENGTH; i++){
+			std::sprintf(&mdString[i*2], "%02x", (unsigned int)hash[i]);
+ 		}
+	} else {
+		std::string mdString = "Coin Not Valid";
+	}
 	return mdString;
 }

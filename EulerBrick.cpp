@@ -36,6 +36,19 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	
 	mpz_t temp1, temp2, temp3, temp4;
 	mpz_t diagT1, diagT2, zero, one;
+
+	mpz_init_set_str(a, "0", 10);
+	mpz_init_set_str(b, "0", 10);
+	mpz_init_set_str(c, "0", 10);
+
+	mpz_init_set_str(diagonalAB, "0", 10);
+	mpz_init_set_str(diagonalAC, "0", 10);
+	mpz_init_set_str(diagonalBC, "0", 10);
+	
+	mpz_init_set_str(spaceDiagonal2, "0", 10);
+	mpz_init_set_str(perfectSpaceDiagonal, "0", 10);
+	mpf_init_set_str(spaceDiagonal, "0", 10);
+
 	mpz_init_set_str(temp1, "0", 10);
 	mpz_init_set_str(temp2, "0", 10);
 	mpz_init_set_str(temp3, "0", 10);
