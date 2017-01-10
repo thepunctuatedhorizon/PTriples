@@ -16,7 +16,7 @@
 #include "Node.h"
 #include "Path.h"
 
-
+//Bored of commenting.
 	class SearchFunctions {
 
 		public:

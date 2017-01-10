@@ -10,8 +10,7 @@
 
 #include "SearchFunctions.h"
 
-
-
+//I'm bored of commenting, I'll just leave this as is.
 SearchFunctions::SearchFunctions(){ }
 
 bool SearchFunctions::rawEquals(PTriples& firstT, PTriples& secondT, int first, int second){

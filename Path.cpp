@@ -10,12 +10,16 @@
 #include "Node.h"
 #include <string>
 
+
 const size_t MAX_PATH_LENGTH = 15;
+
+//Default Constructor
 Path::Path() {
 	// Initialize
 	pathVector.reserve(MAX_PATH_LENGTH);
 }
 
+//TODO:Fix this
 void Path::foundAtThisNode(int whereFound){
 
 	//Do something
@@ -26,6 +30,7 @@ void Path::foundAtThisNode(int whereFound){
 	std::cout << std::endl;
 	std::cout << "The place found = " << whereFound << std::endl;
 }
+
 
 void Path::addUp(){
 	pathVector.push_back(1);
