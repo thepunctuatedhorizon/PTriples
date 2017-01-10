@@ -56,6 +56,8 @@
 		private:
 
 			bool isPerfect;
+			bool isPrimitive;
+
 			Path pathFirst;
 			Path pathSecond;
 

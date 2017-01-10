@@ -17,7 +17,7 @@
 #include "SearchFunctions.h"
 
 EulerBrick::EulerBrick(){
-
+//TODO: FIGURE OUT WHY THIS IS REQUIRED.
 //NOT TO BE USED!
 	//Why must the argumentless constructor be defined?
 
@@ -32,8 +32,9 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	pathFirst = pth1;
 	pathSecond =pth2;
 
-	//How do we prevent <a,b,c> brick = <b, c, a> brick = <c, a, b> etc.?
-	
+	//TODO: How do we prevent <a,b,c> brick = <b, c, a> brick = <c, a, b> etc.?
+
+	//The initialization of the MPZ_T intermediates
 	mpz_t temp1, temp2, temp3, temp4;
 	mpz_t diagT1, diagT2, zero, one;
 
@@ -57,7 +58,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	mpz_init_set_str(diagT2, "0", 10);
 	mpz_init_set_str(zero, "0",10);
 	mpz_init_set_str(one, "1", 10);
-	FNV fnv;
+
 
 	first.getA(temp1);
 	first.getB(temp2);
@@ -95,7 +96,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		hashB = first.getBHash();
 		hashC = second.getBHash();
 		hashDiagAB = first.getCHash();
-		hashDiagAC = fnv.fnv1aHashOfMpz_t(diagonalAC);
+		hashDiagAC = FNV::fnv1aHashOfMpz_t(diagonalAC);
 		hashDiagBC = second.getCHash();
 		} catch (int e) { std::cout << "caught the trown int "  << e << std::endl;}
 
@@ -126,7 +127,7 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 		hashB = first.getBHash();
 		hashC = second.getBHash();
 		hashDiagAB = first.getCHash();
-		hashDiagAC = fnv.fnv1aHashOfMpz_t(diagonalAC);
+		hashDiagAC = FNV::fnv1aHashOfMpz_t(diagonalAC);
 		hashDiagBC = second.getCHash();
 		} catch (int e) { std::cout << "caught the trown int " << e << std::endl;}
 	}
