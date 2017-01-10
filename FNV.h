@@ -17,14 +17,16 @@
 #include <gmp.h>
 #include <gmpxx.h>
 
+	//Simple definition
 	using byte = unsigned char ;
 	
+	//The requisite prime and seed for FNV1 hash
 	static const uint32_t Prime = 0x01000193;
 	static const uint32_t Seed = 0x811C9DC5;
 
 
 	
-
+	//These templates are invaluable conversion templates 
 	template< typename T > std::array< byte, sizeof(T) >  to_bytes( const T& object )
 	{
 			    std::array< byte, sizeof(T) > bytes ;
@@ -35,7 +37,8 @@
 
 			    return bytes ;
 	}
-
+	
+	//These templates must remain as is.
 	template< typename T > T& from_bytes( const std::array< byte, sizeof(T) >& bytes, T& object )
 	{
 			    // http://en.cppreference.com/w/cpp/types/is_trivially_copyable
@@ -48,17 +51,21 @@
 	}
 
 
+	//Definition of the FNV class.
 	class FNV
 	{
 		public:
+
+			//Empty constructor not needed. All usage instances are of the static functions.
 			FNV();
 			
-
+			//This function returns the fnv1a hash of one byte.  Meant to be a sub function
 			static uint32_t fnv1a(unsigned char oneByte, uint32_t hash)
 			{
 				return (oneByte ^ hash) * Prime;
 			}
-
+			
+			//This function returns the hash of an array of bytes.
 			static uint32_t fnv1aArray(const auto bytes)
 			{
 				uint32_t hash = Seed;
@@ -68,12 +75,16 @@
 				return hash;
 			}
 			
+			//This function returns the hash of an MPZ_T number.
 			static uint32_t fnv1aHashOfMpz_t(const mpz_t x)
 			{
+				//Calculations and initializations
 				size_t size = (mpz_sizeinbase (x, 2) + CHAR_BIT-1) / CHAR_BIT;
     				std::vector<byte> v(size);
+				//Exporting the MPZ_T vector into bytes
     				mpz_export(&v[0], &size, 1, 1, 0, 0, x);
     				v.resize(size);
+				//Hash algorithm
 				uint32_t hash = Seed;
 				for(unsigned int i = 0; i < v.size(); i++)
 				{

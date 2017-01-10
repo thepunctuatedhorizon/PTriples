@@ -66,10 +66,10 @@ int main()
 
 	PTriples match = (*node).getDown().getDown().getAnchor();
 
-	match.printOutTriple();
+	std::cout << match.printOutTriple() << std::endl;
 	PTriples mmatch = (*node).getUp().getAnchor();
 
-	mmatch.printOutTriple();
+	std::cout << mmatch.printOutTriple() << std::endl;
 
 
 
@@ -116,7 +116,7 @@ int main()
 	pathss.addDown();
 
 	PTriples result = SearchFunctions::traverseToAndGet((*node), pathss);
-	result.printOutTriple();
+	std::cout << result.printOutTriple()<< std::endl;
 
 	//Testing the new confirmation system.
 
