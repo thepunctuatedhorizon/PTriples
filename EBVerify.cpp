@@ -150,13 +150,12 @@ EBVerify::EBVerify(EulerBrick brick) {
 			}
 			
 			//Corresponding hash values are extracted
-			//TODO: shouldn't I generate these hashes again!?
-			hashA = first.getAHash();
-			hashB = first.getBHash();
-			hashC = second.getBHash();
-			hashDiagAB = first.getCHash();
+			hashA = FNV::fnv1aHashOfMpz_t(a);
+			hashB = FNV::fnv1aHashOfMpz_t(b);
+			hashC = FNV::fnv1aHashOfMpz_t(c);
+			hashDiagAB = FNV::fnv1aHashOfMpz_t(diagonalAB);
 			hashDiagAC = FNV::fnv1aHashOfMpz_t(diagonalAC);
-			hashDiagBC = second.getCHash();
+			hashDiagBC = FNV::fnv1aHashOfMpz_t(diagonalBC);
 			
 			checkCanCreate = true;
 
@@ -186,8 +185,6 @@ EBVerify::EBVerify(EulerBrick brick) {
 
 		//This checks to see if the space diagonal is a perfect square.
 		int spaceDiag = mpz_perfect_square_p(spaceDiagonal2);
-
-		
 		if (spaceDiag>0) { 
 			//If the space diagonal is a perfect square
 			isPerfect = true;

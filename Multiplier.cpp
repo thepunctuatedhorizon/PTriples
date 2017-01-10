@@ -13,15 +13,17 @@
 #include "Multiplier.h"
 
 Multiplier::Multiplier(){
-
+	//Initializing the matrix UP
 	up1 = 1;  up2 = -2; up3 = 2;
 	up4 = 2;  up5 = -1; up6 = 2;
 	up7 = 2;  up8 = -2; up9 = 3;
 
+	//Initializing the matrix Side
 	side1 = 1; side2 = 2; side3 = 2;
 	side4 = 2; side5 = 1; side6 = 2;
 	side7 = 2; side8 = 2; side9 = 3;
 
+	//Initializing the matrix Down
 	down1 = -1; down2 = 2; down3 = 2;
 	down4 = -2; down5 = 1; down6 = 2;
 	down7 = -2; down8 = 2; down9 = 3;
@@ -47,9 +49,10 @@ Multiplier::Multiplier(){
 
 }
 
-
+// The hit function.  It will "hit" the current PTriple with the correct matrix
+//   The correct matrix is chosen by the input of uSd.
 PTriples Multiplier::hit(PTriples currentPT, int uSd){
-
+	//setting results to zero to clear old used values.
 	mpz_set (result1, zero);
 	mpz_set (result2, zero);
 	mpz_set (result3, zero);
