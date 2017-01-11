@@ -124,27 +124,47 @@ int main()
 
 	EBVerify * verifier = new EBVerify((*eulerBrick));
 
-	std::cout << (*eulerBrick).getA() << std::endl;
 
-	std::cout << (*eulerBrick).getB() << std::endl;
-
-	std::cout << (*eulerBrick).getC() << std::endl;
-
-	std::cout << (*eulerBrick).getDiagonalAB() << std::endl;
-
-	std::cout << (*eulerBrick).getDiagonalAC() << std::endl;
-	std::cout << (*eulerBrick).getDiagonalBC() << std::endl;
 
 	BrickCoin* coin = new BrickCoin( (*eulerBrick));
 
 	std::cout << (*coin).getSignature() << std::endl;
-	std::cout << (*coin).getHashSignature() << std::endl;
+	//std::cout << (*coin).getHashSignature() << std::endl;
 
 	EBVerify * ver = new EBVerify((*coin));
 
 	std::string coinSig = "<240, 117, 44>\n<750b7a6f, f00c3c10, 290c95cb>\n11183239fa180f33c3d168b75fe410c2addf017300288c1fe401f959d269cd0c5a8392b6bcb55fff378911c013a86aafcaa36419cde3a11ebbd459814ff61c24";
 
 	EBVerify * stringVerify  = new EBVerify(coinSig);
+
+
+	std::cout << (*eulerBrick).isPrimitiveBrick() << std::endl;
+
+	std::cout << (*eulerBrick).isBrickClose() << std::endl;
+
+	mpz_t temp;
+	mpz_init_set_str(temp, "0", 10);
+	(*eulerBrick).getOddSide(temp);
+	mpz_out_str(stdout, 10, temp);
+	std::cout << std::endl;
+
+	//Testing the derivatives of <a, b, c>
+	mpz_t A, B, C, dac, dbc;
+	mpz_init_set_str(A, "240", 10);
+	mpz_init_set_str(B, "117", 10);
+	mpz_init_set_str(C, "44", 10);
+	mpz_init_set_str(dac, "244", 10);
+	mpz_init_set_str(dbc, "125", 10);
+	PTriples* aaa = new PTriples(A, C, dac);
+	PTriples* bbb = new PTriples(A, B, dbc);
+	Path pp;
+
+	EulerBrick* eulerBricktest = new EulerBrick((*aaa), (*bbb), pp, pp);
+	
+	std::cout << "Here's the sha512 hash trouble makers" << std::endl;
+
+	
+	std::cout << (*coin).getHashSignature() << std::endl;
 
 
     	return 0;

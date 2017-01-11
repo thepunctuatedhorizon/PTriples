@@ -96,6 +96,9 @@
 			//This variable stores whether the brick path was verified.
 			bool pathVerified;
 
+			//This variable stores whether the brick was initialized properly.
+			bool isInitialized;
+
 
 
 

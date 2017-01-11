@@ -30,9 +30,13 @@
 			//This function returns true if the EulerBrick is perfect.
 			bool isBrickPerfect();
 
+			//This function returns true if the EulerBrick is primitive.
+			bool isPrimitiveBrick(){return isPrimitive;}
+
 			//TODO: IMPLEMENT THIS FUNCTION
+			//Currently it will return a string of the decimal part of the spaceDiagonal.
 			//What kind of "closeness" are we talking about?
-			bool isBrickClose();
+			double isBrickClose();
 
 			//TODO: turn this into a string!
 			// This will print out (in future return a string) the signature of the brick.
@@ -40,6 +44,9 @@
 
 			//This function returns the shortest side into the the varable returnside
 			void getShortestSide(mpz_t returnside);
+			
+			//This function returns the odd side to the variable returnside
+			void getOddSide(mpz_t returnside);
 
 			//These function returns the respective triples that were used to create this brick.
 			PTriples getFirstPTriple();
@@ -53,11 +60,21 @@
 			std::string getA();
 			std::string getB();
 			std::string getC();
+
+			//These functions output the side lengths to the provided mpz_t variable.
+			void getAmpz(mpz_t result);
+			void getBmpz(mpz_t result);
+			void getCmpz(mpz_t result);
 		
-			//These function output the side lengths as strings in base ten.
+			//These function output the diagonal length as strings in base ten.
 			std::string getDiagonalAB();
 			std::string getDiagonalAC();
 			std::string getDiagonalBC();
+
+			//These functions output the diagonal lengths to the provided mpz_t variable.
+			void getDiagonalABmpz(mpz_t result);
+			void getDiagonalACmpz(mpz_t result);
+			void getDiagonalBCmpz(mpz_t result);
 
 			//Here you can get the FNV1a hashes of the sides
 			uint32_t getHashA() {return hashA;}
@@ -76,6 +93,9 @@
 			//TODO: Implement this in the code.
 			//This variable is used to store whether the Brick is primitive
 			bool isPrimitive;
+		
+			//This variable stores whether the brick initialized right
+			bool isInitialized;
 	
 			//These path variables store the path info so that confimation can happen.
 			Path pathFirst;
@@ -119,6 +139,10 @@
 			
 			//Checks to see if EulerBrick can be created.
 			bool checkCanCreate;
+
+			//Is the path verified for the brick
+			bool pathVerified;
+			
 
 	};
 

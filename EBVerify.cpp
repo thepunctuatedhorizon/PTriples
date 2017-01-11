@@ -30,10 +30,6 @@ EBVerify::EBVerify(){
 //  brick is then analized by the constructor code and deemed to be valid or invalid
 EBVerify::EBVerify(EulerBrick brick) {
 
-
- 	//TODO: VERIFICATION OF THE PATH!
-
-
 	//The initialization of all variables
 	first = brick.getFirstPTriple();
 	second = brick.getSecondPTriple();
@@ -42,6 +38,7 @@ EBVerify::EBVerify(EulerBrick brick) {
 	verified = false;
 	pathVerified = false;
 	bool checkCanCreate = false;
+	isInitialized = false;
 
 	
 	//The initialization of the MPZ_T intermediates
@@ -101,14 +98,13 @@ EBVerify::EBVerify(EulerBrick brick) {
 				throw 10;
 			}
 			
-			//Corresponding hash values are extracted
-			//TODO: shouldn't I generate these hashes again!?
-			hashA = first.getAHash();
-			hashB = first.getBHash();
-			hashC = second.getBHash();
-			hashDiagAB = first.getCHash();
+			//Corresponding hash values are calclated
+			hashA = FNV::fnv1aHashOfMpz_t(a);
+			hashB = FNV::fnv1aHashOfMpz_t(b);
+			hashC = FNV::fnv1aHashOfMpz_t(c);
+			hashDiagAB = FNV::fnv1aHashOfMpz_t(diagonalAB);
 			hashDiagAC = FNV::fnv1aHashOfMpz_t(diagonalAC);
-			hashDiagBC = second.getCHash();
+			hashDiagBC = FNV::fnv1aHashOfMpz_t(diagonalBC);
 
 			checkCanCreate = true;
 
@@ -218,6 +214,33 @@ EBVerify::EBVerify(EulerBrick brick) {
 		if ( firstCheck && secondCheck){
 			pathVerified = true;
 		}
+
+		//Next, we would like to check if the pathVerified and that we can create the Brick.
+		if (pathVerified && checkCanCreate){
+			//If both checks are satisfied, the brick is initialized. 
+			//TODO: do you really need this?
+			isInitialized = true;
+
+			//The Greatest Common Divisor must be calculated to determine if it is primitive;
+			//Initializing the three temp variables;
+			mpz_t prim1, prim2, prim3, one;
+			mpz_init_set_str(prim1, "-1", 10);
+			mpz_init_set_str(prim2, "-1", 10);
+			mpz_init_set_str(one, "1", 10);
+
+			//Calculating the gcd of each pair.
+			mpz_gcd(prim1, a, b);
+			mpz_gcd(prim2, prim1, c);
+
+			//Now we check to see if the gcd is more than one.
+			int gcd2 = mpz_cmp(prim2, one);
+
+
+			if (gcd2 == 0){
+				isPrimitive = true;
+			}
+		}
+
 	}
 
 	// TODO: Get proper paths initiated for test bricks
@@ -225,15 +248,12 @@ EBVerify::EBVerify(EulerBrick brick) {
 	// WARNING: THIS MUST NOT be in the final code.
 	pathVerified = true;
 	
-	//TODO: Figure out if the Brick is primitive
-	//Right now I don't care, but this must be addressed.
-	isPrimitive = true;
 
 	if (pathVerified && brick.getHashA() == hashA && brick.getHashB() == hashB && brick.getHashC() == hashC)
 	{
 		//TODO: what else? Certainly we don't want this output, but it's for testing purposes.
 		verified = true;
-		std::cout << "This is a match, it computes. I'm happy to report this checked out." << std::endl;
+		std::cout << "This is a match." << std::endl;
 	}
 
 }
@@ -253,9 +273,11 @@ EBVerify::EBVerify(BrickCoin coin){
 
 	//Getting the signatures from the BrickCoin
 	std::string parseString = coin.getSignature();
+	
 	std::string SHA512hash = coin.getHashSignature();
 
 	//TODO: MUST MAKE THIS INPUT RESISTANT!!!
+	//TODO: MUST FIX THE PARSE MECHANISM FOR NEW SIGNATURE
 	
 	//Setting up the parse mechanism.
 	char * parseChar = new char[parseString.length() + 1];
@@ -327,7 +349,8 @@ EBVerify::EBVerify(BrickCoin coin){
 		//We still have to verify the SHA512 Hash. So we generate a coin from which we get its HashSignature;
 		BrickCoin* coinVerify = new BrickCoin( (*generated) );
 
-		//Only if the hashes are the same do we say it truly verified. 
+		//Only if the hashes are the same do we say it truly verified.
+		
 		if (SHA512hash == (*coinVerify).getHashSignature()){
 			verified = true;
 			//TODO: What else needs to happen?
@@ -338,6 +361,8 @@ EBVerify::EBVerify(BrickCoin coin){
 	
 }
 
+
+//TODO: Fix the signature reader. 
 EBVerify::EBVerify(std::string coin){
 
 	//TODO: MAKE THIS INPUT RESISTANT!!!
@@ -423,6 +448,7 @@ EBVerify::EBVerify(std::string coin){
 	if ((*verifyThis).didItVerify()){
 		//Therefore, we generate a BrickCoin to verify the SHA512 hash
 		BrickCoin* coinVerify = new BrickCoin( (*generated) );
+		
 		if (SHA512hash == (*coinVerify).getHashSignature()){
 			verified = true;
 			//What do we really want it to do?

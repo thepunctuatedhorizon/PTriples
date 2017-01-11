@@ -16,14 +16,7 @@
 #include "EulerBrick.h"
 #include "SearchFunctions.h"
 
-EulerBrick::EulerBrick(){
-//TODO: FIGURE OUT WHY THIS IS REQUIRED.
-//NOT TO BE USED!
-	//Why must the argumentless constructor be defined?
-
-	std::cout<< "NOT TO BE USED!!!" << std::endl;
-
-}
+EulerBrick::EulerBrick(){}
 
 //The proper constructor. This constructor takes in two PTriples and two Path variables associated
 //    with the respective PTriples
@@ -35,8 +28,13 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 	pathFirst = pth1;
 	pathSecond =pth2;
 	checkCanCreate = false;
+	isInitialized = false;
+	isPerfect = false;
+	
 
 	//TODO: How do we prevent <a,b,c> brick = <b, c, a> brick = <c, a, b> etc.?
+	//First, if <a,b,c> is a brick, then <b,a,c> will be too.
+
 
 	//The initialization of the MPZ_T intermediates
 	mpz_t temp1, temp2, temp3, temp4;
@@ -107,8 +105,8 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 				throw 10;
 			}
 		
-			//Corresponding hash values are extracted
-			//TODO: shouldn't I generate these hashes again!?
+			//Corresponding hash values are calculated
+			
 			hashA = FNV::fnv1aHashOfMpz_t(a);
 			hashB = FNV::fnv1aHashOfMpz_t(b);
 			hashC = FNV::fnv1aHashOfMpz_t(c);
@@ -137,11 +135,11 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 			second.getC(diagonalBC);
 
 			//Diagonal AC need's to be calculated.
-			mpz_set(temp3, zero);
-			mpz_set(temp1, zero);
-			mpz_mul(temp3, temp2, temp2);
-			mpz_mul(temp1, temp4, temp4);
-			mpz_add(diagT2, temp1, temp3);
+			mpz_set(temp2, zero);
+			mpz_set(temp4, zero);
+			mpz_mul(temp2, temp1, temp1);
+			mpz_mul(temp4, temp3, temp3);
+			mpz_add(diagT2, temp2, temp4);
 
 			//This function tests to see if the number is square rootable.
 			int sqrtable = mpz_perfect_square_p(diagT2);
@@ -204,15 +202,53 @@ EulerBrick::EulerBrick(PTriples fst, PTriples scnd, Path pth1, Path pth2){
 			mpf_init(spD);
 			mpf_init(spaceDiagonal);
 			mpf_set_z(spD, spaceDiagonal2);
-			size_t size = 0;
-			mpf_out_str(stdout, 10, size, spD);
-			std::cout<< std::endl;
 	
 			mpf_sqrt(spaceDiagonal, spD);
 		}
+
+		//Here we figure out if the path is correct 
+		PTriples fst = SearchFunctions::createFromPath(pathFirst);
+		PTriples snd = SearchFunctions::createFromPath(pathSecond);
+	
+
+		//This is where we check if the path generated triples and the provided triples are the same;
+		bool firstCheck = SearchFunctions::HashAllEquals(first, fst);
+		bool secondCheck = SearchFunctions::HashAllEquals(second, snd);
+		
+		//Only if both checks are true can we give a path verified 
+		if ( firstCheck && secondCheck){
+			pathVerified = true;
+		}
+
+		//We don't have the path fully set up yet.
+		//TODO: remove from production code.
+		pathVerified = true;
 	}
 
-	
+	//Next, we would like to check if the pathVerified and that we can create the Brick.
+	if (pathVerified && checkCanCreate){
+		//If both checks are satisfied, the brick is initialized. 
+		isInitialized = true;
+
+		//The Greatest Common Divisor must be calculated to determine if it is primitive;
+		//Initializing the three temp variables;
+		mpz_t prim1, prim2, prim3, one;
+		mpz_init_set_str(prim1, "-1", 10);
+		mpz_init_set_str(prim2, "-1", 10);
+		mpz_init_set_str(one, "1", 10);
+
+		//Calculating the gcd of each pair.
+		mpz_gcd(prim1, a, b);
+		mpz_gcd(prim2, prim1, c);
+
+		//Now we check to see if the gcd is more than one.
+		int gcd2 = mpz_cmp(prim2, one);
+
+
+		if (gcd2 == 0){
+			isPrimitive = true;
+		}
+	}
 }
 
 //
@@ -257,10 +293,14 @@ void EulerBrick::print(){
 	
 }
 
-bool EulerBrick::isBrickClose(){
+double EulerBrick::isBrickClose(){
 
-	//TODO: IMPLEMENT THIS FUNCTION!
-	return false;
+	mpf_t spDiP, spDdP;
+	mpf_init(spDiP);
+	mpf_init(spDdP);
+	mpf_trunc(spDiP, spaceDiagonal);
+	mpf_sub(spDdP,spaceDiagonal,spDiP);
+	return mpf_out_str(NULL, 10, 0, spDdP);
 }
 
 
@@ -276,6 +316,7 @@ PTriples EulerBrick::getSecondPTriple() {
 
 }
 
+//These function output the side lengths as strings in base ten.
 std::string EulerBrick::getA(){
 	return mpz_get_str(NULL, 10, a);
 }
@@ -287,7 +328,34 @@ std::string EulerBrick::getB(){
 std::string EulerBrick::getC(){
 	return mpz_get_str(NULL, 10, c);
 }
+
+//These functions output the side lengths to the provided mpz_t variable.
+void EulerBrick::getAmpz(mpz_t result){
+	mpz_set(result, a);
+}
+
+void EulerBrick::getBmpz(mpz_t result){
+	mpz_set(result, b);
+}
+
+void EulerBrick::getCmpz(mpz_t result){
+	mpz_set(result, c);
+}
 		
+//These functions output the diagonal lengths to the provided mpz_t variable.
+void EulerBrick::getDiagonalABmpz(mpz_t result){
+	mpz_set(result, diagonalAB);
+}
+
+void EulerBrick::getDiagonalACmpz(mpz_t result){
+	mpz_set(result, diagonalAC);
+}
+
+void EulerBrick::getDiagonalBCmpz(mpz_t result){
+	mpz_set(result, diagonalBC);
+}
+
+//These function output the diagonal length as strings in base ten.		
 std::string EulerBrick::getDiagonalAB(){
 	return mpz_get_str(NULL, 10, diagonalAB);
 }
@@ -298,6 +366,23 @@ std::string EulerBrick::getDiagonalAC(){
 
 std::string EulerBrick::getDiagonalBC(){
 	return mpz_get_str(NULL, 10, diagonalBC);
+}
+
+void EulerBrick::getOddSide(mpz_t returnside){
+
+	int oddA = mpz_odd_p(a);
+	int oddB = mpz_odd_p(b);
+	int oddC = mpz_odd_p(c);
+
+	if (oddA == 0 && oddB == 0 && oddC != 0){
+		mpz_set(returnside, c);
+	}
+	if (oddA == 0 && oddB != 0 && oddC == 0){
+		mpz_set(returnside, b);
+	}
+	if (oddA != 0 && oddB == 0 && oddC == 0){
+		mpz_set(returnside, a);
+	}
 }
 
 void EulerBrick::getShortestSide(mpz_t returnside){
