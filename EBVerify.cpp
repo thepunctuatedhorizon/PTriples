@@ -269,6 +269,8 @@ bool EBVerify::didItVerify(){
 
 //The primary verification constructor, requires a BrickCoin to be provided.  The
 //  brickcoin is then analized by the constructor code and deemed to be valid or invalid
+
+//TODO: Check all Bricks in the coin? OR just the primary one?
 EBVerify::EBVerify(BrickCoin coin){
 
 	//Getting the signatures from the BrickCoin
@@ -305,9 +307,9 @@ EBVerify::EBVerify(BrickCoin coin){
 	const char * aString = token[0].c_str();
 	const char * bString = token[1].c_str();
 	const char * cString = token[2].c_str();
-	std::string aHashString = token[3];
-	std::string bHashString = token[4];
-	std::string cHashString = token[5];
+	std::string aHashString = token[21];
+	std::string bHashString = token[22];
+	std::string cHashString = token[23];
 
 	//Initializing MPZ_T variables so that a EulerBrick can be constructed.
 	mpz_t aAA, bBB, cCC, ab, bc, a2, b2, c2, temp1, temp2;

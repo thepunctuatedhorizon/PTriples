@@ -129,11 +129,11 @@ int main()
 	BrickCoin* coin = new BrickCoin( (*eulerBrick));
 
 	std::cout << (*coin).getSignature() << std::endl;
-	//std::cout << (*coin).getHashSignature() << std::endl;
+	std::cout << (*coin).getHashSignature() << std::endl;
 
 	EBVerify * ver = new EBVerify((*coin));
 
-	std::string coinSig = "<240, 117, 44>\n<750b7a6f, f00c3c10, 290c95cb>\n11183239fa180f33c3d168b75fe410c2addf017300288c1fe401f959d269cd0c5a8392b6bcb55fff378911c013a86aafcaa36419cde3a11ebbd459814ff61c24";
+	std::string coinSig = "<240, 117, 44>\n<750b7a6f, f00c3c10, 290c95cb>\nf82755bb940b750bbc5b49cb8436bd52c8d4246861961303355fea76ba21bef6c09eb11be2d276ee2479a99cbfe9f09bc351d3c5a7c078cb294996fecb1aaed9";
 
 	EBVerify * stringVerify  = new EBVerify(coinSig);
 

@@ -135,6 +135,8 @@ BrickCoin::BrickCoin(EulerBrick brck){
 
 
 		//Signature generation
+		//TODO: ACTUALLY MAKE THIS USEFUL!  WE NEED TO put them in order? l - g? All permutations?
+		//TODO: Double SHA512 hashing? or just once?
 		signature = "";
 		signature = "<"+brick.getA() + ", " + brick.getB() + ", " + brick.getC() + ">\n";
 		
