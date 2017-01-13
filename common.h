@@ -52,7 +52,7 @@ uint8_t *bbp_alloc_hex(const char *str, size_t *len) {
     const size_t count = strlen(str) / 2;
     size_t i;
 
-    uint8_t *v = malloc(count);
+    uint8_t *v = static_cast<uint8_t*>(malloc(count));
 
     for (i = 0; i < count; ++i) {
         const char hi = bbp_hex2byte(str[i * 2]);
@@ -67,7 +67,3 @@ uint8_t *bbp_alloc_hex(const char *str, size_t *len) {
 }
 
 #endif
-
-    Contact GitHub API Training Shop Blog About 
-
-

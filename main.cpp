@@ -17,6 +17,8 @@
 
 #include "EBVerify.h"
 
+#include "common.h"
+#include "hash.h"
 
 int main()
 {
@@ -166,6 +168,64 @@ int main()
 	
 	std::cout << (*coin).getHashSignature() << std::endl;
 
+
+	//Here I'm starting to test my Bitcoin stuff.
+	//Here is the Serialization example
+
+	uint32_t n32 = 0x68f7a38b;
+    	char str[] = "FooBar";
+    	size_t str_len = 10;
+    	uint16_t n16 = 0xee12;
+    	uint8_t ser[16];
+	
+	//This is what we expect
+    	const char ser_exp[] = "8ba3f768466f6f4261720000000012ee";
+
+    	/* */
+
+    	size_t str_real_len = strlen(str);
+    	size_t str_pad_len = str_len - str_real_len;
+
+    	*(uint32_t *)(ser) = bbp_eint32(BBP_LITTLE, n32);
+    	memcpy(ser + 4, str, str_real_len);
+    	if (str_pad_len > 0) {
+    		memset(ser + 4 + str_real_len, '\0', str_pad_len);
+    	}
+    	*(uint16_t *)(ser + 4 + str_len) = bbp_eint16(BBP_LITTLE, n16);
+
+    	bbp_print_hex("ser      ", ser, sizeof(ser));
+	printf("ser (exp): %s\n", ser_exp);
+
+
+	//Here is the hash examples
+	 char message[] = "Hello Bitcoin!";
+    	uint16_t prefix = 0xd17f;
+    	uint8_t suffix = 0x8c;
+    	uint8_t digest[32];
+    	uint8_t hser[35];
+
+    	const char sha256_exp[] = "518ad5a375fa52f84b2b3df7933ad685eb62cf69869a96731561f94d10826b5c";
+    	const char hash256_exp[] = "90986ea4e28b847cc7f9beba87ea81b221ca6eaf9828a8b04c290c21d891bcda";
+    	const char hash_ser_exp[] = "7fd190986ea4e28b847cc7f9beba87ea81b221ca6eaf9828a8b04c290c21d891bcda8c";
+
+    	/* */
+
+    	/* SHA-2 digest is big-endian */
+
+    	bbp_sha256(digest, (uint8_t *)message, strlen(message));
+    	bbp_print_hex("SHA256(message)      ", digest, 32);
+    	printf("SHA256(message) (exp): %s\n", sha256_exp);
+
+    	bbp_sha256(digest, digest, 32);
+    	bbp_print_hex("hash256(message)      ", digest, 32);
+    	printf("hash256(message) (exp): %s\n", hash256_exp);
+
+    	*(uint16_t *)(hser) = bbp_eint16(BBP_LITTLE, prefix);
+    	memcpy(hser + 2, digest, 32);
+    	*(hser + 2 + 32) = suffix;
+
+    	bbp_print_hex("ser      ", hser, sizeof(hser));
+	printf("ser (exp): %s\n", hash_ser_exp);
 
     	return 0;
 }
