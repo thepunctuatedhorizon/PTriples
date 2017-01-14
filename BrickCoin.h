@@ -37,13 +37,6 @@
 			//This variable holds the brick that was used to generate the BrickCoin
 			EulerBrick brick;
 
-			//These variables hold the bricks that will be part of the BrickCoin
-			EulerBrick brick2;
-			EulerBrick brick3;
-			EulerBrick brick4;
-			EulerBrick brick5;
-			EulerBrick brick6;
-
 			//This varible indicates whether the coin is valid and verifiable;
 			bool didItVerify;
 	};

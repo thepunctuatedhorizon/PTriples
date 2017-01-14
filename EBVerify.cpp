@@ -270,7 +270,8 @@ bool EBVerify::didItVerify(){
 //The primary verification constructor, requires a BrickCoin to be provided.  The
 //  brickcoin is then analized by the constructor code and deemed to be valid or invalid
 
-//TODO: Check all Bricks in the coin? OR just the primary one?
+
+
 EBVerify::EBVerify(BrickCoin coin){
 
 	//Getting the signatures from the BrickCoin
@@ -279,7 +280,6 @@ EBVerify::EBVerify(BrickCoin coin){
 	std::string SHA512hash = coin.getHashSignature();
 
 	//TODO: MUST MAKE THIS INPUT RESISTANT!!!
-	//TODO: MUST FIX THE PARSE MECHANISM FOR NEW SIGNATURE
 	
 	//Setting up the parse mechanism.
 	char * parseChar = new char[parseString.length() + 1];
