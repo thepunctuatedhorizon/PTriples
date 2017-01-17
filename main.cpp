@@ -20,6 +20,8 @@
 #include "common.h"
 #include "hash.h"
 
+#include "BrickDataBase/db.h"
+
 int main()
 {
 
@@ -135,7 +137,7 @@ int main()
 
 	EBVerify * ver = new EBVerify((*coin));
 
-	std::string coinSig = "<240, 117, 44>\n<750b7a6f, f00c3c10, 290c95cb>\nf82755bb940b750bbc5b49cb8436bd52c8d4246861961303355fea76ba21bef6c09eb11be2d276ee2479a99cbfe9f09bc351d3c5a7c078cb294996fecb1aaed9";
+	std::string coinSig = "<240,117,44>\n<750b7a6f,f00c3c10,290c95cb>\nf82755bb940b750bbc5b49cb8436bd52c8d4246861961303355fea76ba21bef6c09eb11be2d276ee2479a99cbfe9f09bc351d3c5a7c078cb294996fecb1aaed9";
 
 	EBVerify * stringVerify  = new EBVerify(coinSig);
 
@@ -226,6 +228,37 @@ int main()
 
     	bbp_print_hex("ser      ", hser, sizeof(hser));
 	printf("ser (exp): %s\n", hash_ser_exp);
+
+
+
+
+
+
+
+	//Here I'm testing the DATABASE FEATURE.
+	char * sql;
+	
+   	int rc;
+
+
+	DB databaseHelper;
+	
+	databaseHelper.startDatabase();
+
+
+	/* Create SQL statement */
+   	sql = "INSERT INTO BRICK (ID,A,B,C,AHASH,BHASH,CHASH,SHA512) "  \
+         	"VALUES (1, '44', '117', '240', '290c95cb', 'f00c3c10','750b7a6f','f82755bb940b750bbc5b49cb8436bd52c8d4246861961303355fea76ba21bef6c09eb11be2d276ee2479a99cbfe9f09bc351d3c5a7c078cb294996fecb1aaed9' ); " ;
+	databaseHelper.insertIntoDatabase( sql);
+	
+	databaseHelper.parseAndStore(coinSig);
+
+	/* Create SQL statement */
+   	sql = "SELECT * from BRICK";
+	databaseHelper.getInfoFromDatabase(sql);
+
+
+   	databaseHelper.closeDatabase();
 
     	return 0;
 }
