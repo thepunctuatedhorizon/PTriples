@@ -25,8 +25,24 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
    	return 0;
 }
 
+static int callBackSignature(void *outputStr, int argc, char **argv, char **azColName){
+	(*( std::vector<std::string>*)(outputStr));
+	(*( std::vector<std::string>*)(outputStr)).push_back("<");
+   	for( int i=0; i<argc; i++){
+		(*( std::vector<std::string>*)(outputStr)).push_back( (argv[i] ? argv[i] : "NULL") );
+      		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+   	}
+   	printf("\n");
+   	return 0;
+}
 
+//TODO: FIX!
+static int callBackSearchForSignature(void *loc, int argc, char **argv, char **azColName){
+   	
+	*(int*) loc = std::stoi(argv[0]);
 
+   	return 0;
+}
 
 int DB::startDatabase()
 {
@@ -188,13 +204,51 @@ int DB::parseAndStore(std::string coin){
 }
 
 
-	int getAndRecreateSignature(int recordNum){
+std::string DB::getAndRecreateSignature(std::vector<std::string> data, int recordNum){
+	/* Create SQL statement */
+	char *sql = "SELECT * from BRICK";
+	char *zErrMsg = 0;
+	int rc;
+	
 
+   	/* Execute SQL statement */
+	try {
+   		rc = sqlite3_exec(db, sql, callBackSignature, (void*)&data, &zErrMsg);
+   		if( rc != SQLITE_OK ){
+      			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+      			sqlite3_free(zErrMsg);
+			throw 1;
+   		}else{
+      			fprintf(stdout, "Operation done successfully\n");
+   		}
+	} catch (int e) {
+		return "" + e;
+	}
+	return "<" + data[2] + "," + data[3] + "," + data[4] + ">\n<" + data[5] + "," + data[6]+ "," + data[7] + ">\n" + data[8];
 }
 
 
-	int searchForSignature(std::string signature){
+int DB::searchForSignature(std::string hashSignature){
+	std::string sqlString = "SELECT * FROM `BRICK` WHERE SHA512=\"" + hashSignature + "\"";
+	const char *sql = sqlString.c_str();
+	char *zErrMsg = 0;
+	int rc;
+	int data;
 
+   	/* Execute SQL statement */
+	try {
+   		rc = sqlite3_exec(db, sql, callBackSearchForSignature, (void*)&data, &zErrMsg);
+   		if( rc != SQLITE_OK ){
+      			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+      			sqlite3_free(zErrMsg);
+			throw -1;
+   		}else{
+      			fprintf(stdout, "Operation done successfully\n");
+   		}
+	} catch (int e) {
+		return e;
+	}
+	return data;
 }
 
 

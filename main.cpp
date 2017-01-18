@@ -257,7 +257,11 @@ int main()
    	sql = "SELECT * from BRICK";
 	databaseHelper.getInfoFromDatabase(sql);
 
-
+	std::vector<std::string> data;
+	data.reserve(10);
+	std::cout << databaseHelper.getAndRecreateSignature(data, 1);
+	std::cout << std::endl;
+	std::cout << databaseHelper.searchForSignature("f82755bb940b750bbc5b49cb8436bd52c8d4246861961303355fea76ba21bef6c09eb11be2d276ee2479a99cbfe9f09bc351d3c5a7c078cb294996fecb1aaed9");
    	databaseHelper.closeDatabase();
 
     	return 0;

@@ -20,12 +20,11 @@
 			int closeDatabase();
 			int getInfoFromDatabase(char * sql);
 			int parseAndStore(std::string signature);
-			int getAndRecreateSignature(int recordNum);
-			int searchForSignature(std::string signature);
-
+			std::string getAndRecreateSignature(std::vector<std::string> data, int recordNum);
+			int searchForSignature(std::string hashSignature);
+			
 		private:
 			sqlite3 * db;
-
 
 	};
 
